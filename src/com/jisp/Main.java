@@ -20,9 +20,10 @@ public class Main {
             while (reader.ready()){
                 line = reader.readLine();
                 System.out.println(line);
-                List<String> tokens = t.tokenize(line);
-                for (String token : tokens){
-                    System.out.println(token);
+                //List<String> tokens = t.tokenize(line);
+                List<Token> tokens = t.makeTokens(line);
+                for (Token token : tokens){
+                    System.out.println(token.data.toStirng());
                 }
             }
             System.out.println("--> Finished <--");

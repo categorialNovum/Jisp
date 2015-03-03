@@ -3,10 +3,14 @@ package com.jisp.parser;
 /**
  * Created by jbeaumon on 2/25/15.
  */
-public class Token {
-    Object t;
+public abstract class Token <T>{
+    public T data;
 
-    Token(String s){
-        t = s;
+    public Token(T t){
+        data = t;
+    }
+
+    public String toString(){
+        return data.toString();
     }
 }
