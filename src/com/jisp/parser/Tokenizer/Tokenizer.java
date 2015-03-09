@@ -1,11 +1,7 @@
 package com.jisp.parser.Tokenizer;
 
-//import com.jisp.parser.Tokenizer.Token;
-import com.jisp.parser.Tokenizer.DoubleNum;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,6 +13,14 @@ public class Tokenizer {
     private Pattern dotMatch = Pattern.compile("[\\.]");
     private Pattern alphaMatch = Pattern.compile("[A-z]");
     private Pattern parenMatch = Pattern.compile("\\(|\\)");
+
+    // Test strings for regex
+    final static String alphanumeric = "ABCdefghigkj456";
+    final static String decimal = "123.456";
+    final static String alphaOnly = "ABCDefgHIjklmnOPQRSTUVwxyZ";
+    final static String numberOnly = "0123456789";
+    final static String jibberish = "fansbdfjeklr32520958u*&(^&%&^*53892)))(*89afssd,afnehrw";
+    final static String codeString = "(+ (- 20033 1478) (* 2 (+ 4 9)))";
 
     private void dumpMatcher(Matcher m){
             System.out.println("Group Count : " + m.groupCount());
@@ -42,6 +46,23 @@ public class Tokenizer {
         return matchList;
     }
 
+    public void test(){
+        System.out.println ("-------------------------------------------");
+        System.out.println("Test String : " + alphanumeric);
+        System.out.println ("-------------------------------------------");
+        testRegex(alphanumeric);
+        System.out.println ("-------------------------------------------");
+        System.out.println("Test String : " + decimal);
+        System.out.println ("-------------------------------------------");
+        testRegex(decimal);
+        System.out.println ("-------------------------------------------");
+        System.out.println("Test String : " + codeString);
+        System.out.println ("-------------------------------------------");
+        testRegex(codeString);
+        System.out.println ("-------------------------------------------");
+    }
+
+
 
     private HashMap<String,Boolean> matchAllMap(String s){
         Matcher intResults = intMatch.matcher(s);
@@ -52,20 +73,12 @@ public class Tokenizer {
         Matcher operatorResults = operatorMatch.matcher(s);
         HashMap<String,Boolean> matchMap = new HashMap<String,Boolean>();
         matchMap.put(matchType.DIGIT.toString(), intResults.find());
-        matchMap.put(matchType.DOUBLE.toString(), alphaResults.find());
+        matchMap.put(matchType.DOUBLE.toString(), doubleResults.find());
+        matchMap.put(matchType.ALPHA.toString(), alphaResults.find());
         matchMap.put(matchType.PAREN.toString(), parenResults.find());
         matchMap.put(matchType.OPERATOR.toString(), operatorResults.find());
         matchMap.put(matchType.DOT.toString(), dotResults.find());
         return matchMap;
-    }
-
-    private Boolean isNumber(String s){
-        Matcher intResults = intMatch.matcher(s);
-        Matcher doubleResults = doubleMatch.matcher(s);
-        if (intResults.groupCount() + doubleResults.groupCount() == s.length()){
-            return Boolean.TRUE;
-        }
-        return Boolean.FALSE;
     }
 
     public void testRegex(String s){
@@ -99,5 +112,22 @@ public class Tokenizer {
         }else {
             return new Symbol(s);
         }
+    }
+
+    // Split a string into pieces and create/return a list of tokens
+    public ArrayList<Token> tokenize(String s){
+        System.out.println("TOKENIZATION");
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        String[] items = s.replace("(", " ( ").replace(")", " ) ").split(" ");
+        ArrayList<Token> tokens = new ArrayList<Token>();
+        for (String item : items){
+            if (item.equals(" ") || item.equals("")){
+                continue;
+            }
+            System.out.println("--> " + item);
+            tokens.add(createToken(item));
+        }
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        return tokens;
     }
 }
