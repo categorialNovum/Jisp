@@ -1,8 +1,5 @@
 package com.jisp.parser.Tokenizer;
 
-/**
- * Created by jbeaumon on 3/7/15.
- */
 public class Paren implements Token {
     String data;
     p_type paren_type;

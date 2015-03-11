@@ -20,7 +20,7 @@ public class Tokenizer {
     final static String alphaOnly = "ABCDefgHIjklmnOPQRSTUVwxyZ";
     final static String numberOnly = "0123456789";
     final static String jibberish = "fansbdfjeklr32520958u*&(^&%&^*53892)))(*89afssd,afnehrw";
-    final static String codeString = "(+ (- 20033 1478) (* 2 (+ 4 9)))";
+    public final String codeString = "(+ (- 20033 1478) (* 2 (+ 4 9)))";
 
     private void dumpMatcher(Matcher m){
             System.out.println("Group Count : " + m.groupCount());
