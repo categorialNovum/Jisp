@@ -23,8 +23,12 @@ public class DoubleNum implements Token{
         return data.intValue();
     }
 
-    public String getType(){
+    public String getTypeStr(){
         return Token.TokenType.NUMBER.toString();
+    }
+
+    public TokenType getType(){
+        return Token.TokenType.NUMBER;
     }
 }
 

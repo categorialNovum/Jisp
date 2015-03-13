@@ -14,8 +14,12 @@ public class Symbol implements Token {
         data = s;
     }
 
-    public String getType(){
+    public String getTypeStr(){
         return TokenType.SYMBOL.toString();
+    }
+
+    public TokenType getType(){
+        return TokenType.SYMBOL;
     }
 
     public String toString(){

@@ -106,6 +106,9 @@ public class StandardEnvironment {
 
     public static Double abs(Double d){return Math.abs(d);}
 
+    // ROUND - round a double to the closest integer
+    public static Integer round(Double d){return new Integer((int)Math.round(d));}
+
     // MAX - cast all numbers to double, perform comparisons double vs double, but return the native object type using the index of the original list
     public static Object max(ArrayList l){
         if (l.size() <= 1) {
@@ -172,6 +175,9 @@ public class StandardEnvironment {
         b.add(0, a);
         return b;
     }
+
+    // LENGTH - size of a list
+    public static Integer length(ArrayList l){return l.size();}
 
     // NULL? - null predicate
     public static Boolean null_p(Object o){
@@ -246,6 +252,9 @@ public class StandardEnvironment {
         System.out.println("D(" + d.toString() + ") == I(" + i.toString() + ") :  -> " + env.eq(d, i));
         System.out.println("D(" + d.toString() + ") == D(" + d.toString() + ") :  -> " + env.eq(d, d));
         System.out.println("-------------------------------------------------------------------------------------");
+        System.out.println("Round (" + d.toString() + ") :  -> " + env.round(d));
+        System.out.println("Round (199.499) :  -> " + env.round(199.499));
+        System.out.println("-------------------------------------------------------------------------------------");
         System.out.println("NI( )  number? :  -> " + env.number_p(ni));
         System.out.println("I(" + i.toString() + ")  number? :  -> " + env.number_p(i));
         System.out.println("D(" + d.toString() + ")  number? :  -> " + env.number_p(d));
@@ -256,6 +265,8 @@ public class StandardEnvironment {
         System.out.println("D(" + d.toString() + ")  null? :  -> " + env.null_p(d));
         System.out.println("-------------------------------------------------------------------------------------");
         System.out.println(codeStr);
+        System.out.println("-------------------------------------------------------------------------------------");
+        System.out.println("Length (tokens) : '" + codeStr + "' :  -> " + env.length(tokens));
         System.out.println("-------------------------------------------------------------------------------------");
         for (Token tok : tokens){
             System.out.println(tok.toString());

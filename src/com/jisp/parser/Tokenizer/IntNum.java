@@ -25,7 +25,11 @@ public class IntNum implements Token, Number {
         return data;
     }
 
-    public String getType(){
+    public String getTypeStr(){
         return Token.TokenType.NUMBER.toString();
+    }
+
+    public TokenType getType(){
+        return Token.TokenType.NUMBER;
     }
 }

@@ -26,8 +26,12 @@ public class Paren implements Token {
         data = s;
     }
 
-    public String getType(){
+    public String getTypeStr(){
         return Token.TokenType.PAREN.toString();
+    }
+
+    public TokenType getType(){
+        return Token.TokenType.PAREN;
     }
 
     public String toString(){

@@ -5,5 +5,7 @@ public  interface Token <T>{
 
     public String toString();
 
-    public String getType();
+    public String getTypeStr();
+
+    public TokenType getType();
 }
