@@ -1,4 +1,4 @@
-package com.jisp.parser.Tokenizer;
+package com.jisp.exceptions;
 
 public class TokenException extends Exception {
 

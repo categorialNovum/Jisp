@@ -17,10 +17,6 @@ public class Environment {
         fullEnv.put("+", "PLUS");
     }
 
-//    public void addToEnv(String s, Expression exp){
- //       fullEnv.put(s,exp);
-  //  }
-
     public Object eval(ArrayList<Object> l){
         if (l.size() == 0){return null;}
         Object o = l.get(0);

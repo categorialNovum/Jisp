@@ -1,5 +1,7 @@
 package com.jisp.parser.Tokenizer;
 
+import com.jisp.exceptions.TokenException;
+
 public class Paren implements Token {
     String data;
     p_type paren_type;

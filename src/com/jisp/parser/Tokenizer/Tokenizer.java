@@ -116,18 +116,18 @@ public class Tokenizer {
 
     // Split a string into pieces and create/return a list of tokens
     public ArrayList<Token> tokenize(String s){
-        System.out.println("TOKENIZATION");
-        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+ //       System.out.println("TOKENIZATION");
+  //      System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         String[] items = s.replace("(", " ( ").replace(")", " ) ").split(" ");
         ArrayList<Token> tokens = new ArrayList<Token>();
         for (String item : items){
             if (item.equals(" ") || item.equals("")){
                 continue;
             }
-            System.out.println("--> " + item);
+//            System.out.println("--> " + item);
             tokens.add(createToken(item));
         }
-        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+   //     System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         return tokens;
     }
 }
