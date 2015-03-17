@@ -27,7 +27,7 @@ public class Main {
                 System.out.println("LINE : " + line);
                 System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                 ArrayList<Token> tokens = t.tokenize(line);
-                ArrayList<Object> parsed =  p.parse(tokens);
+                ArrayList<Object> parsed = (ArrayList<Object>)p.parse(tokens);
                 for(Object o : parsed){
                     System.out.println("% : " + o.toString());
                 }

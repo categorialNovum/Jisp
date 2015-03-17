@@ -1,8 +1,5 @@
 package com.jisp.parser.Tokenizer;
 
-/**
- * Created by jbeaumon on 3/7/15.
- */
 public class Symbol implements Token {
     String data;
 
