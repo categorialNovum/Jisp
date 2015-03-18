@@ -11,48 +11,44 @@ public class Parser {
     public Parser() {
     }
 
-    //public static ArrayList<Object> parse(ArrayList<Token> tokens){
-    public static Object parse(Object obj) {
-        System.out.println("OBJECT : " + obj.toString());
-        ArrayList<Object> returnList = new ArrayList<Object>();
-        try {
-            if (obj == null) {
+    public static Object parse(ArrayList<Token> tokens) {
+        //System.out.println("TOKENS 1 : " + tokens.toString());
+        //ArrayList<Object> returnList = new ArrayList<Object>();
+        //try {
+           /* if (tokens.size() == 0) {
                 throw new SyntaxException("Empty List -> Unbalanced Expression.");
-            }
-            if (obj instanceof ArrayList && ((ArrayList)obj).size() == 1) {
-                return ((ArrayList)obj).remove(0);
-            }
-            if (obj instanceof ArrayList && ((ArrayList)obj).size() == 0) {
-                //todo  : create a NIL object to return here instead of a null Object
-                return new Object();
-            }
-            ArrayList<Token> tokens = (ArrayList<Token>) obj;
+            }*/
             if (tokens.size() == 1){
-                return tokens.remove(0);
+                //System.out.println("# TOKENS SIZE == 1 : 8----> " + tokens.toString());
+                return tokens.get(0);
             }
             Token token = tokens.remove(0); // POP
-//            System.out.println("Token (outer) -> " + token.toString());
+            //System.out.println("# TOP POP 8----> " + token.toString());
+            //System.out.println("TOKENS 2 : " + tokens.toString());
             //Open Paren
             if (token.getType() == Token.TokenType.OPEN_PAREN) {
-                System.out.println("# OPEN PAREN 8----> " + token.toString());
+                //System.out.println("# OPEN PAREN SEEN ");
                 ArrayList expr = new ArrayList<Object>();
+                token = tokens.get(0); // POP
+                //System.out.println("TOKENS 3 : " + tokens.toString());
                 // Read until closing Paren
-                //token = tokens.remove(0); // POP
-                while (token.getType() != Token.TokenType.CLOSE_PAREN) {
-                    token = tokens.remove(0); // POP
-                    System.out.println("Token (inner) -> " + token.toString());
+                while (tokens.size() >=1 && tokens.get(0).getType() != Token.TokenType.CLOSE_PAREN) {
+                 //   System.out.println("Token (while) -> " + token.toString());
+                  //  System.out.println("TOKENS 4 : " + tokens.toString());
                     expr.add(parse(tokens));
+                   // System.out.println("TOKENS 4.5 : " + tokens.toString());
                 }
                 return expr;
             } else if (token.getType() == Token.TokenType.CLOSE_PAREN) {
                 System.out.println("# INCORRECTLY NESTED CLOSE PAREN 8----> " + token.toString());
-            } else {
-                System.out.println("# SYMBOL / NUMBER 8----> " + token.toString());
-                return token;
             }
-        } catch (SyntaxException ex) {
+            //} else {
+                System.out.println("***** ATOMIC SYMBOL / NUMBER -->  [" + token.toString() + "]");
+             return token;
+            //}
+        /*} catch (SyntaxException ex) {
             System.out.println(ex.toString());
-        }
-        return returnList;
+        }*/
+        //return returnList;
     }
 }

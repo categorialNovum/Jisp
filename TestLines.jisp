@@ -1,3 +1,4 @@
 (+ 2 3 5)
 (+ 2 2)
 (def lst '(list 1 2 3 4))
+(begin (define r 10) (* pi (* r r)))
