@@ -1,5 +1,5 @@
 (+ 2 3 5)
 (+ 2 2)
+(begin (define r 10) (* pi (* r r)))
 (def lst '(list 1 2 3 4))
 (def lst quote(list 1 2 3 4))
-(begin (define r 10) (* pi (* r r)))

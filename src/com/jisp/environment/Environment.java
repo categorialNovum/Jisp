@@ -1,6 +1,8 @@
 package com.jisp.environment;
 
 import com.jisp.environment.StandardEnvironment;
+import com.jisp.parser.Tokenizer.Conditional;
+import com.jisp.parser.Tokenizer.Quote;
 import com.jisp.parser.Tokenizer.Symbol;
 import com.jisp.parser.Tokenizer.Token;
 import java.util.HashMap;
@@ -27,7 +29,12 @@ public class Environment {
             return o;
         }else if(o instanceof ArrayList){
             ArrayList<Object> lst = (ArrayList<Object>)o;
-            //Symbol
+            Token t = (Token)lst.remove(0);
+            if (t instanceof Quote){
+                return lst.remove(0);
+            }else if (t instanceof Conditional){
+
+            }
         }
         return o;
     }

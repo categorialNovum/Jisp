@@ -6,14 +6,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Tokenizer {
-    private enum matchType{DIGIT,DOUBLE,OPERATOR,DOT,ALPHA,PAREN,QUOTE}
+    private enum matchType{DIGIT,DOUBLE,OPERATOR,DOT,ALPHA,PAREN,QUOTE,CONDITIONAL,DEFINE}
     private Pattern intMatch = Pattern.compile("\\d"); // digits
     private Pattern doubleMatch = Pattern.compile("[0-9\\.]"); // digits and decimal points
     private Pattern operatorMatch = Pattern.compile("[%*-+/]"); // add,sub,mod,minus,mult,div operators
     private Pattern dotMatch = Pattern.compile("[\\.]");//  dot
     private Pattern alphaMatch = Pattern.compile("[A-z]"); // any alpha
     private Pattern parenMatch = Pattern.compile("\\(|\\)"); // either paren
-    private Pattern quoteMatch = Pattern.compile("QUOTE|'"); // digits
+    private Pattern quoteMatch = Pattern.compile("quote|'", Pattern.CASE_INSENSITIVE); // digits
+    private Pattern condMatch = Pattern.compile("if", Pattern.CASE_INSENSITIVE);
+    private Pattern defMatch = Pattern.compile("define|def", Pattern.CASE_INSENSITIVE);
 
     // Test strings for regex
     final static String alphanumeric = "ABCdefghigkj456";
@@ -37,7 +39,9 @@ public class Tokenizer {
         Matcher parenResults = parenMatch.matcher(s);
         Matcher dotResults = dotMatch.matcher(s);
         Matcher operatorResults = operatorMatch.matcher(s);
-        Matcher quoteResults = quoteMatch.matcher(s.toUpperCase()); // match quotes against uppercase string for simplicity
+        Matcher quoteResults = quoteMatch.matcher(s);
+        Matcher condResults = condMatch.matcher(s);
+        Matcher defResults = defMatch.matcher(s);
         ArrayList<Matcher> matchList = new ArrayList<Matcher>();
         matchList.add(intResults);
         matchList.add(doubleResults);
@@ -46,6 +50,8 @@ public class Tokenizer {
         matchList.add(operatorResults);
         matchList.add(dotResults);
         matchList.add(quoteResults);
+        matchList.add(condResults);
+        matchList.add(defResults);
         return matchList;
     }
 
@@ -67,7 +73,7 @@ public class Tokenizer {
 
 
 
-    private HashMap<String,Boolean> matchAllMap(String s){
+    private HashMap<String,Boolean> matchAllMap(String s) {
         Matcher intResults = intMatch.matcher(s);
         Matcher doubleResults = doubleMatch.matcher(s);
         Matcher alphaResults = alphaMatch.matcher(s);
@@ -75,7 +81,9 @@ public class Tokenizer {
         Matcher dotResults = dotMatch.matcher(s);
         Matcher operatorResults = operatorMatch.matcher(s);
         Matcher quoteResults = quoteMatch.matcher(s);
-        HashMap<String,Boolean> matchMap = new HashMap<String,Boolean>();
+        Matcher condResults = condMatch.matcher(s);
+        Matcher defResults = defMatch.matcher(s);
+        HashMap<String, Boolean> matchMap = new HashMap<String, Boolean>();
         matchMap.put(matchType.DIGIT.toString(), intResults.find());
         matchMap.put(matchType.DOUBLE.toString(), doubleResults.find());
         matchMap.put(matchType.ALPHA.toString(), alphaResults.find());
@@ -83,6 +91,9 @@ public class Tokenizer {
         matchMap.put(matchType.OPERATOR.toString(), operatorResults.find());
         matchMap.put(matchType.DOT.toString(), dotResults.find());
         matchMap.put(matchType.QUOTE.toString(), quoteResults.find());
+        matchMap.put(matchType.CONDITIONAL.toString(), condResults.find());
+        matchMap.put(matchType.DEFINE.toString(), defResults.find());
+
         return matchMap;
     }
 
@@ -100,7 +111,6 @@ public class Tokenizer {
 
     public Token createToken(String s){
         HashMap<String,Boolean> matches = matchAllMap(s);
-        System.out.println("CT");
         if (matches.get(matchType.PAREN.toString())){
             return new Paren(s);
         }
@@ -118,6 +128,12 @@ public class Tokenizer {
         }else if(matches.get(matchType.QUOTE.toString())){
             System.out.println("QUOTE MATCH");
             return new Quote(s);
+        }else if(matches.get(matchType.CONDITIONAL.toString())){
+            System.out.println("CONDITIONAL MATCH");
+            return new Conditional(s);
+        }else if(matches.get(matchType.DEFINE.toString())){
+            System.out.println("DEFINE MATCH");
+            return new Define(s);
         }else{
             return new Symbol(s);
         }
