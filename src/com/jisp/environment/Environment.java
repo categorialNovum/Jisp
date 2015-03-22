@@ -10,7 +10,7 @@ public class Environment {
     StandardEnvironment stdEnv;
     private enum Expression{VAR,NUMBER,QUOTE,CONDITIONAL,DEFINITION,PROCEDURE_CALL}
     //HashMap<String,Expression> fullEnv;
-    HashMap<String,String> fullEnv;
+    HashMap<String,Object> fullEnv;
 
     public Environment(){
         stdEnv = new StandardEnvironment();
@@ -19,25 +19,16 @@ public class Environment {
 
     public Object eval(ArrayList<Object> l){
         if (l.size() == 0){return null;}
-        Object o = l.get(0);
+        Object o = l.remove(0); // Pop
         if (o instanceof Symbol){
             //todo : return mapped value.
             // figure out best way to map to functions
+        }else if(! (o instanceof ArrayList)){
+            return o;
         }else if(o instanceof ArrayList){
-            ArrayList currentList = (ArrayList)o;
-            Object currentObj = currentList.get(0);
-
-            //handle quote
-
-            //handle conditional
-
-            //handle define
-
-            //else -> recursive call to eval
-
-
+            ArrayList<Object> lst = (ArrayList<Object>)o;
+            //Symbol
         }
-
         return o;
     }
 }

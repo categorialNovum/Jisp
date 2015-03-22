@@ -6,13 +6,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Tokenizer {
-    private enum matchType{DIGIT,DOUBLE,OPERATOR,DOT,ALPHA,PAREN}
-    private Pattern intMatch = Pattern.compile("\\d");
-    private Pattern doubleMatch = Pattern.compile("[0-9\\.]");
-    private Pattern operatorMatch = Pattern.compile("[%*-+/]");
-    private Pattern dotMatch = Pattern.compile("[\\.]");
-    private Pattern alphaMatch = Pattern.compile("[A-z]");
-    private Pattern parenMatch = Pattern.compile("\\(|\\)");
+    private enum matchType{DIGIT,DOUBLE,OPERATOR,DOT,ALPHA,PAREN,QUOTE}
+    private Pattern intMatch = Pattern.compile("\\d"); // digits
+    private Pattern doubleMatch = Pattern.compile("[0-9\\.]"); // digits and decimal points
+    private Pattern operatorMatch = Pattern.compile("[%*-+/]"); // add,sub,mod,minus,mult,div operators
+    private Pattern dotMatch = Pattern.compile("[\\.]");//  dot
+    private Pattern alphaMatch = Pattern.compile("[A-z]"); // any alpha
+    private Pattern parenMatch = Pattern.compile("\\(|\\)"); // either paren
+    private Pattern quoteMatch = Pattern.compile("QUOTE|'"); // digits
 
     // Test strings for regex
     final static String alphanumeric = "ABCdefghigkj456";
@@ -36,6 +37,7 @@ public class Tokenizer {
         Matcher parenResults = parenMatch.matcher(s);
         Matcher dotResults = dotMatch.matcher(s);
         Matcher operatorResults = operatorMatch.matcher(s);
+        Matcher quoteResults = quoteMatch.matcher(s.toUpperCase()); // match quotes against uppercase string for simplicity
         ArrayList<Matcher> matchList = new ArrayList<Matcher>();
         matchList.add(intResults);
         matchList.add(doubleResults);
@@ -43,6 +45,7 @@ public class Tokenizer {
         matchList.add(parenResults);
         matchList.add(operatorResults);
         matchList.add(dotResults);
+        matchList.add(quoteResults);
         return matchList;
     }
 
@@ -71,6 +74,7 @@ public class Tokenizer {
         Matcher parenResults = parenMatch.matcher(s);
         Matcher dotResults = dotMatch.matcher(s);
         Matcher operatorResults = operatorMatch.matcher(s);
+        Matcher quoteResults = quoteMatch.matcher(s);
         HashMap<String,Boolean> matchMap = new HashMap<String,Boolean>();
         matchMap.put(matchType.DIGIT.toString(), intResults.find());
         matchMap.put(matchType.DOUBLE.toString(), doubleResults.find());
@@ -78,6 +82,7 @@ public class Tokenizer {
         matchMap.put(matchType.PAREN.toString(), parenResults.find());
         matchMap.put(matchType.OPERATOR.toString(), operatorResults.find());
         matchMap.put(matchType.DOT.toString(), dotResults.find());
+        matchMap.put(matchType.QUOTE.toString(), quoteResults.find());
         return matchMap;
     }
 
@@ -95,6 +100,7 @@ public class Tokenizer {
 
     public Token createToken(String s){
         HashMap<String,Boolean> matches = matchAllMap(s);
+        System.out.println("CT");
         if (matches.get(matchType.PAREN.toString())){
             return new Paren(s);
         }
@@ -107,9 +113,12 @@ public class Tokenizer {
         else if (matches.get(matchType.DOUBLE.toString())
                 && matches.get(matchType.DOT.toString())
                 && !matches.get(matchType.ALPHA.toString())
-                && !matches.get(matchType.OPERATOR.toString())){
+                && !matches.get(matchType.OPERATOR.toString())) {
             return new DoubleNum(s);
-        }else {
+        }else if(matches.get(matchType.QUOTE.toString())){
+            System.out.println("QUOTE MATCH");
+            return new Quote(s);
+        }else{
             return new Symbol(s);
         }
     }

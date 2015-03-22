@@ -19,7 +19,7 @@ public class Parser {
         if (token.getType() == Token.TokenType.OPEN_PAREN) {
             ArrayList expr = new ArrayList<Object>();
             while (tokens.size() >=1 && tokens.get(0).getType() != Token.TokenType.CLOSE_PAREN) {
-                System.out.println("Token (while) -> " + token.toString());
+                //System.out.println("Token (while) -> " + token.toString());
                 expr.add(parse(tokens));
             }
             tokens.remove(0); // POP only
