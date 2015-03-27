@@ -6,8 +6,6 @@ public class Paren implements Token {
     String data;
     TokenType paren_type;
 
-    public enum p_type {OPEN, CLOSE}
-
     Paren(String s) {
         try {
             setData(s);

@@ -1,15 +1,21 @@
 package com.jisp;
 
-
 import java.io.*;
 import java.util.ArrayList;
 import com.jisp.parser.Tokenizer.Tokenizer;
 import com.jisp.parser.Tokenizer.Token;
 import com.jisp.parser.Parser;
+import com.jisp.environment.Environment;
 
 public class Main {
+    private static Environment env;
+
+    public static void init(){
+        env = new Environment();
+    }
 
     public static void main(String[] args) {
+       init();
 	    if (args.length < 1){
             System.out.println("Requires a JiSP file as input. Exiting");
             System.exit(0);
@@ -34,8 +40,13 @@ public class Main {
                 System.out.println("PARSED (" + parsed.size() + ") : " + parsed);
 
                 for(Object o : parsed){
-                    System.out.println("% : " + o.toString());
+                    System.out.println("% : " + o.toString() + " : " + o.getClass().toString());
                 }
+                Object value = env.eval(parsed);
+                System.out.println("EVALUATE");
+                System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                System.out.println(value);
+                System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             }
 
             System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");

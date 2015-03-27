@@ -126,13 +126,10 @@ public class Tokenizer {
                 && !matches.get(matchType.OPERATOR.toString())) {
             return new DoubleNum(s);
         }else if(matches.get(matchType.QUOTE.toString())){
-            System.out.println("QUOTE MATCH");
             return new Quote(s);
         }else if(matches.get(matchType.CONDITIONAL.toString())){
-            System.out.println("CONDITIONAL MATCH");
             return new Conditional(s);
         }else if(matches.get(matchType.DEFINE.toString())){
-            System.out.println("DEFINE MATCH");
             return new Define(s);
         }else{
             return new Symbol(s);
@@ -141,18 +138,14 @@ public class Tokenizer {
 
     // Split a string into pieces and create/return a list of tokens
     public ArrayList<Token> tokenize(String s){
- //       System.out.println("TOKENIZATION");
-  //      System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         String[] items = s.replace("(", " ( ").replace(")", " ) ").split(" ");
         ArrayList<Token> tokens = new ArrayList<Token>();
         for (String item : items){
             if (item.equals(" ") || item.equals("")){
                 continue;
             }
-//            System.out.println("--> " + item);
             tokens.add(createToken(item));
         }
-   //     System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         return tokens;
     }
 }

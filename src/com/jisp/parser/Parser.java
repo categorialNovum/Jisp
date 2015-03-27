@@ -1,8 +1,6 @@
 package com.jisp.parser;
 
-import com.jisp.exceptions.SyntaxException;
 import com.jisp.parser.Tokenizer.Token;
-
 import java.util.ArrayList;
 
 public class Parser {

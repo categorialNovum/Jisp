@@ -1,10 +1,8 @@
 package com.jisp.environment;
 
 import com.jisp.environment.StandardEnvironment;
-import com.jisp.parser.Tokenizer.Conditional;
-import com.jisp.parser.Tokenizer.Quote;
-import com.jisp.parser.Tokenizer.Symbol;
-import com.jisp.parser.Tokenizer.Token;
+import com.jisp.parser.Tokenizer.*;
+
 import java.util.HashMap;
 import java.util.ArrayList;
 
@@ -16,6 +14,7 @@ public class Environment {
 
     public Environment(){
         stdEnv = new StandardEnvironment();
+        fullEnv = new HashMap<String,Object>();
         fullEnv.put("+", "PLUS");
     }
 
@@ -23,8 +22,7 @@ public class Environment {
         if (l.size() == 0){return null;}
         Object o = l.remove(0); // Pop
         if (o instanceof Symbol){
-            //todo : return mapped value.
-            // figure out best way to map to functions
+            return fullEnv.get(o);
         }else if(! (o instanceof ArrayList)){
             return o;
         }else if(o instanceof ArrayList){
@@ -32,8 +30,14 @@ public class Environment {
             Token t = (Token)lst.remove(0);
             if (t instanceof Quote){
                 return lst.remove(0);
-            }else if (t instanceof Conditional){
-
+            }else if(t instanceof Conditional){
+                Object test = lst.remove(0);
+                Object consequence = lst.remove(0);
+                Object alternative = lst.remove(0);
+            }else if (t instanceof Define){
+                String var = lst.get(0).toString();
+                ArrayList exp = (ArrayList)lst.get(0);
+                fullEnv.put(var,eval(exp));
             }
         }
         return o;

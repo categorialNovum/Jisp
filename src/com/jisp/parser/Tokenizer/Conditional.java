@@ -1,7 +1,5 @@
 package com.jisp.parser.Tokenizer;
 
-import com.jisp.exceptions.TokenException;
-
 public class Conditional implements Token{
 
     String data;
