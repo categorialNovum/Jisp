@@ -1,7 +1,7 @@
 package com.jisp.environment;
 
 import java.util.ArrayList;
-import com.jisp.parser.Tokenizer.Token;
+import com.jisp.parser.Tokens.Token;
 import com.jisp.parser.Tokenizer.Tokenizer;
 
 public class StandardEnvironment {
@@ -16,6 +16,18 @@ public class StandardEnvironment {
         for (StandardOps op : StandardOps.values()){
             if (token.equals(op.toString()));
                 return Boolean.TRUE;
+        }
+        if (s.equals("+")
+                || s.equals("-")
+                || s.equals("*")
+                || s.equals("/")
+                || s.equals("%")
+                || s.equals(">")
+                || s.equals(">=")
+                || s.equals("<")
+                || s.equals("<=")
+                || s.equals("=")){
+            return Boolean.TRUE;
         }
         return Boolean.FALSE;
     }

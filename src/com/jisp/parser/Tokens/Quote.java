@@ -1,12 +1,11 @@
-package com.jisp.parser.Tokenizer;
+package com.jisp.parser.Tokens;
 
 import com.jisp.exceptions.TokenException;
-import com.jisp.parser.Tokenizer.Token;
 
 public class Quote implements Token{
     String data;
 
-    Quote(String s) {
+    public Quote(String s) {
         try {
             if (s.toUpperCase().equals("QUOTE") || s.equals("'")) {
                 setData(s);

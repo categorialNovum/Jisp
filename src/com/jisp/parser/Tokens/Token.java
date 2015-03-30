@@ -1,4 +1,4 @@
-package com.jisp.parser.Tokenizer;
+package com.jisp.parser.Tokens;
 
 public  interface Token <T>{
     public enum TokenType {NUMBER, SYMBOL, OPEN_PAREN, CLOSE_PAREN, QUOTE, CONDITIONAL,DEFINE}

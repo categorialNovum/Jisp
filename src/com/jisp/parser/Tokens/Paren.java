@@ -1,4 +1,4 @@
-package com.jisp.parser.Tokenizer;
+package com.jisp.parser.Tokens;
 
 import com.jisp.exceptions.TokenException;
 
@@ -6,7 +6,7 @@ public class Paren implements Token {
     String data;
     TokenType paren_type;
 
-    Paren(String s) {
+    public Paren(String s) {
         try {
             setData(s);
             if (data.equals("(")) {

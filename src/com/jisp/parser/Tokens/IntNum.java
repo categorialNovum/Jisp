@@ -1,4 +1,4 @@
-package com.jisp.parser.Tokenizer;
+package com.jisp.parser.Tokens;
 
 /**
  * Created by jbeaumon on 3/7/15.

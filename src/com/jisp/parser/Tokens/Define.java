@@ -1,11 +1,11 @@
-package com.jisp.parser.Tokenizer;
+package com.jisp.parser.Tokens;
 
-public class Conditional implements Token{
+public class Define implements Token {
 
     String data;
 
-    Conditional(String s) {
-            setData(s);
+    public Define(String s) {
+        setData(s);
     }
 
     public void setData(String s) {
@@ -13,14 +13,15 @@ public class Conditional implements Token{
     }
 
     public String getTypeStr() {
-        return TokenType.CONDITIONAL.toString();
+        return TokenType.DEFINE.toString();
     }
 
     public TokenType getType() {
-        return TokenType.CONDITIONAL;
+        return TokenType.DEFINE;
     }
 
     public String toString() {
         return data;
     }
+
 }

@@ -1,6 +1,6 @@
 package com.jisp.parser;
 
-import com.jisp.parser.Tokenizer.Token;
+import com.jisp.parser.Tokens.Token;
 import java.util.ArrayList;
 
 public class Parser {
@@ -25,7 +25,7 @@ public class Parser {
         } else if (token.getType() == Token.TokenType.CLOSE_PAREN) {
             System.out.println("# INCORRECTLY NESTED CLOSE PAREN 8----> " + token.toString());
         }
-            System.out.println("***** ATOMIC SYMBOL / NUMBER -->  [" + token.toString() + "]");
+            //System.out.println("***** ATOMIC SYMBOL / NUMBER -->  [" + token.toString() + "]");
         return token;
     }
 }

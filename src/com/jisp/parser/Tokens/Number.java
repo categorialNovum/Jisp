@@ -1,4 +1,4 @@
-package com.jisp.parser.Tokenizer;
+package com.jisp.parser.Tokens;
 
 public interface Number {
     public Integer toInt();

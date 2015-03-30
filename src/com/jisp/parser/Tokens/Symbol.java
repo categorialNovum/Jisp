@@ -1,4 +1,4 @@
-package com.jisp.parser.Tokenizer;
+package com.jisp.parser.Tokens;
 
 public class Symbol implements Token {
     String data;

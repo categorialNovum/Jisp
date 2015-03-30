@@ -3,7 +3,7 @@ package com.jisp;
 import java.io.*;
 import java.util.ArrayList;
 import com.jisp.parser.Tokenizer.Tokenizer;
-import com.jisp.parser.Tokenizer.Token;
+import com.jisp.parser.Tokens.Token;
 import com.jisp.parser.Parser;
 import com.jisp.environment.Environment;
 
@@ -42,10 +42,12 @@ public class Main {
                 for(Object o : parsed){
                     System.out.println("% : " + o.toString() + " : " + o.getClass().toString());
                 }
-                Object value = env.eval(parsed);
+                System.out.println("------------------------------------");
                 System.out.println("EVALUATE");
                 System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-                System.out.println(value);
+                Object value = env.eval(parsed);
+                System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                System.out.println("VALUE : " + value);
                 System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             }
 

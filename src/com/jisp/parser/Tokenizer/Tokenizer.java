@@ -1,21 +1,26 @@
 package com.jisp.parser.Tokenizer;
 
+import com.jisp.parser.Tokens.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Tokenizer {
-    private enum matchType{DIGIT,DOUBLE,OPERATOR,DOT,ALPHA,PAREN,QUOTE,CONDITIONAL,DEFINE}
+    private enum matchType{DIGIT,DOUBLE,OPERATOR,DOT,ALPHA,PAREN,QUOTE,CONDITIONAL,DEFINE, STDOP}
     private Pattern intMatch = Pattern.compile("\\d"); // digits
     private Pattern doubleMatch = Pattern.compile("[0-9\\.]"); // digits and decimal points
     private Pattern operatorMatch = Pattern.compile("[%*-+/]"); // add,sub,mod,minus,mult,div operators
+    //private Pattern opMatch = Pattern.compile("%|*|-|+|//|>|>=|<|<="); // add,sub,mod,minus,mult,div operators
     private Pattern dotMatch = Pattern.compile("[\\.]");//  dot
     private Pattern alphaMatch = Pattern.compile("[A-z]"); // any alpha
     private Pattern parenMatch = Pattern.compile("\\(|\\)"); // either paren
     private Pattern quoteMatch = Pattern.compile("quote|'", Pattern.CASE_INSENSITIVE); // digits
     private Pattern condMatch = Pattern.compile("if", Pattern.CASE_INSENSITIVE);
     private Pattern defMatch = Pattern.compile("define|def", Pattern.CASE_INSENSITIVE);
+    private Pattern stdOpMatch = Pattern.compile("abs|min|max|mod|length|not|append|apply|car|cdr"
+            + "|cons|map|begin|round|append|null?|number?|list?|null?|symbol?", Pattern.CASE_INSENSITIVE);
 
     // Test strings for regex
     final static String alphanumeric = "ABCdefghigkj456";
@@ -42,6 +47,7 @@ public class Tokenizer {
         Matcher quoteResults = quoteMatch.matcher(s);
         Matcher condResults = condMatch.matcher(s);
         Matcher defResults = defMatch.matcher(s);
+        Matcher stdOpResults = stdOpMatch.matcher(s);
         ArrayList<Matcher> matchList = new ArrayList<Matcher>();
         matchList.add(intResults);
         matchList.add(doubleResults);
@@ -52,6 +58,7 @@ public class Tokenizer {
         matchList.add(quoteResults);
         matchList.add(condResults);
         matchList.add(defResults);
+        matchList.add(stdOpResults);
         return matchList;
     }
 
@@ -83,6 +90,7 @@ public class Tokenizer {
         Matcher quoteResults = quoteMatch.matcher(s);
         Matcher condResults = condMatch.matcher(s);
         Matcher defResults = defMatch.matcher(s);
+        Matcher stdOpResults = stdOpMatch.matcher(s);
         HashMap<String, Boolean> matchMap = new HashMap<String, Boolean>();
         matchMap.put(matchType.DIGIT.toString(), intResults.find());
         matchMap.put(matchType.DOUBLE.toString(), doubleResults.find());
@@ -93,6 +101,7 @@ public class Tokenizer {
         matchMap.put(matchType.QUOTE.toString(), quoteResults.find());
         matchMap.put(matchType.CONDITIONAL.toString(), condResults.find());
         matchMap.put(matchType.DEFINE.toString(), defResults.find());
+        matchMap.put(matchType.STDOP.toString(), stdOpResults.find());
 
         return matchMap;
     }
@@ -125,6 +134,9 @@ public class Tokenizer {
                 && !matches.get(matchType.ALPHA.toString())
                 && !matches.get(matchType.OPERATOR.toString())) {
             return new DoubleNum(s);
+        }else if(matches.get(matchType.STDOP.toString())){
+            System.out.println("STD OP");
+            return new Symbol(s);
         }else if(matches.get(matchType.QUOTE.toString())){
             return new Quote(s);
         }else if(matches.get(matchType.CONDITIONAL.toString())){
