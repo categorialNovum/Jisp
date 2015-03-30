@@ -9,7 +9,6 @@ public class StandardEnvironment {
     public enum StandardOps{PLUS, GT, LT, GTE, LTE, EQ, MULTIPLY, DIVIDE, ABS, APPEND, APPLY, BEGIN, CAR, CDR, CONS, EQ_P,
                             EQUAL_P, LENGTH, LIST, LIST_P, MAP, MAX, MIN, NOT, NULL_P, NUMBER_P, PROCEDURE_P, ROUND, SYMBOL_P}
 
-
     public static Boolean isStdOp(String s){
         // convert token to uppercase, convert ? to _P for predicates
         String token = s.toUpperCase().replace("?", "_P");
@@ -33,6 +32,9 @@ public class StandardEnvironment {
     }
 
     // ADDITION
+    public static Object add(Object a, Object b){
+        return add(a,b);}
+
     public static Integer add(Integer a, Integer b){return a + b;}
 
     public static Double add(Double a, Integer b){return a + b;}
@@ -42,6 +44,8 @@ public class StandardEnvironment {
     public static Double add(Double a, Double b){return a + b;}
 
     // SUBTRACTION
+    public static Object subtract(Object a, Object b){
+        return subtract(a,b);}
     public static Integer subtract(Integer a, Integer b){return a - b;}
 
     public static Double subtract(Double a, Integer b){return a - b;}

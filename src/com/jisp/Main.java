@@ -1,11 +1,14 @@
 package com.jisp;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.lang.reflect.Method;
 import com.jisp.parser.Tokenizer.Tokenizer;
 import com.jisp.parser.Tokens.Token;
 import com.jisp.parser.Parser;
 import com.jisp.environment.Environment;
+import com.jisp.environment.StandardEnvironment;
 
 public class Main {
     private static Environment env;
@@ -45,18 +48,36 @@ public class Main {
                 System.out.println("------------------------------------");
                 System.out.println("EVALUATE");
                 System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-                Object value = env.eval(parsed);
+//                Object value = env.eval(parsed);
+                Object value2 = env.evalList(parsed);
                 System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-                System.out.println("VALUE : " + value);
+                System.out.println("VALUE : " + value2);
                 System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             }
 
             System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             System.out.println("--> Finished <--");
+            Method method = StandardEnvironment.class.getMethod("add", Integer.class, Integer.class);
+            // regular call
+            System.out.println("METHOD INVOCATION : " + method.invoke(StandardEnvironment.class, 123, 456));
+            // call to static method can use null for first param
+            System.out.println("METHOD INVOCATION : " + method.invoke(null, 123, 456));
         }catch (FileNotFoundException ex){
             System.out.println("JiSP file not found. exiting");
+            System.out.println(ex.toString());
         }catch (IOException ex){
             System.out.println("IO exception");
+            System.out.println(ex.toString());
+        }catch (NoSuchMethodException ex){
+            System.out.println("No Such Method exception");
+            System.out.println(ex.toString());
+        }catch (IllegalAccessException ex){
+            System.out.println("Illegal Access exception");
+            System.out.println(ex.toString());
+        }catch (InvocationTargetException ex){
+            System.out.println("Invocation Target exception");
+            System.out.println(ex.toString());
+
         }
     }
 }

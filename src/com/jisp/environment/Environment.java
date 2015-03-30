@@ -2,6 +2,7 @@ package com.jisp.environment;
 
 import com.jisp.parser.Tokens.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -16,9 +17,12 @@ public class Environment {
     public Environment(){
         stdEnv = new StandardEnvironment();
         fullEnv = new HashMap<String,Object>();
+        methodEnv = new HashMap<String,Method>();
         try {
-            fullEnv.put("+", "PLUS");
-            methodEnv.put("+", StandardEnvironment.class.getMethod("add"));
+            //fullEnv.put("+", "PLUS");
+//            methodEnv.put("+", StandardEnvironment.class.getMethod("add"));
+            methodEnv.put("+", StandardEnvironment.class.getMethod("add", Object.class, Object.class));
+            methodEnv.put("-", StandardEnvironment.class.getMethod("subtract", Object.class, Object.class));
             /*methodEnv.put("=", StandardEnvironment.class.getMethod("eq"));
             methodEnv.put("eq?", StandardEnvironment.class.getMethod("eq"));
             methodEnv.put("+", StandardEnvironment.class.getMethod("add", Double.class, Integer.class));
@@ -44,6 +48,9 @@ public class Environment {
             methodEnv.put("number?", StandardEnvironment.class.getMethod("number_p"));
             methodEnv.put("symbol?", StandardEnvironment.class.getMethod("symbol_p"));
             methodEnv.put("procedure?", StandardEnvironment.class.getMethod("procedure_p"));*/
+            for (Method m : methodEnv.values()){
+                System.out.println("METHOD ENV : " + m.toString());
+            }
         }catch (NoSuchMethodException ex){
             System.out.println("No such method, assface.");
             System.out.println(ex.toString());
@@ -53,8 +60,9 @@ public class Environment {
     public Object eval(Object list){
         System.out.println("EVAL --> " + list.toString());
         if (list instanceof Symbol){
-            System.out.println("EVAL - symbol - " + list.toString());
-            //return fullEnv.get(list);
+            System.out.println("EVAL - SYMBOL - " + list.toString());
+            ArrayList alist = (ArrayList)list;
+            System.out.println("list size : " + alist.size());
             return methodEnv.get(list.toString());
         }else if(! (list instanceof ArrayList)){
             System.out.println("EVAL - NOT ArrayList - " + list.toString());
@@ -82,6 +90,47 @@ public class Environment {
     }
 
     public Object evalList(ArrayList<Object> l){
+        System.out.println("EVAL --> " + l.toString());
+        Object o = l.remove(0); // Pop
+            if (l.size() == 0) {
+                return null;
+            }
+            if (o instanceof Symbol) {
+                System.out.println("EVAL - symbol - " + o.toString());
+                System.out.println("symbol - list size " + l.size());
+                /*if (l.size() >= 2) {
+                    Object a = l.remove(0);
+                    Object b = l.remove(0);
+                    Method m = methodEnv.get(o);
+                    m.invoke(a, b);
+                }*/
+
+                return fullEnv.get(o);
+            } else if (!(o instanceof ArrayList)) {
+                System.out.println("EVAL - NOT ArrayList - " + o.toString());
+                return o;
+            } else if (o instanceof ArrayList) {
+                System.out.println("EVAL - ArrayList - " + o.toString());
+                ArrayList<Object> lst = (ArrayList<Object>) o;
+                Token t = (Token) lst.remove(0);
+                if (t instanceof Quote) {
+                    System.out.println("EVAL - QUOTE - " + o.toString());
+                    return lst.remove(0);
+                } else if (t instanceof Conditional) {
+                    System.out.println("EVAL - CONDITIONAL - " + o.toString());
+                    Object test = lst.remove(0);
+                    Object consequence = lst.remove(0);
+                    Object alternative = lst.remove(0);
+                } else if (t instanceof Define) {
+                    System.out.println("EVAL - DEFINE - " + o.toString());
+                    String var = lst.get(0).toString();
+                    ArrayList exp = (ArrayList) lst.get(0);
+                    fullEnv.put(var, eval(exp));
+                }
+            }
+        return o;
+    }
+    /*public Object evalList(ArrayList<Object> l){
         if (l.size() == 0){return null;}
         System.out.println("EVAL --> " + l.toString());
         Object o = l.remove(0); // Pop
@@ -111,5 +160,5 @@ public class Environment {
             }
         }
         return o;
-    }
+    }*/
 }
