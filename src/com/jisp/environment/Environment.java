@@ -12,11 +12,13 @@ public class Environment {
     private enum Expression{VAR,NUMBER,QUOTE,CONDITIONAL,DEFINITION,PROCEDURE_CALL}
     //HashMap<String,Expression> fullEnv;
     HashMap<String,Object> fullEnv;
+    HashMap<String,Object> userEnv;
     HashMap<String,Method> methodEnv;
 
     public Environment(){
         stdEnv = new StandardEnvironment();
         fullEnv = new HashMap<String,Object>();
+        userEnv = new HashMap<String,Object>();
         methodEnv = new HashMap<String,Method>();
         try {
             //fullEnv.put("+", "PLUS");
@@ -48,9 +50,9 @@ public class Environment {
             methodEnv.put("number?", StandardEnvironment.class.getMethod("number_p"));
             methodEnv.put("symbol?", StandardEnvironment.class.getMethod("symbol_p"));
             methodEnv.put("procedure?", StandardEnvironment.class.getMethod("procedure_p"));*/
-            for (Method m : methodEnv.values()){
-                System.out.println("METHOD ENV : " + m.toString());
-            }
+//            for (Method m : methodEnv.values()){
+ //               System.out.println("METHOD ENV : " + m.toString());
+  //          }
         }catch (NoSuchMethodException ex){
             System.out.println("No such method, assface.");
             System.out.println(ex.toString());
@@ -96,16 +98,14 @@ public class Environment {
                 return null;
             }
             if (o instanceof Symbol) {
-                System.out.println("EVAL - symbol - " + o.toString());
+                Symbol s = (Symbol)o;
+                System.out.println("EVAL - symbol - " + s.toString());
                 System.out.println("symbol - list size " + l.size());
-                /*if (l.size() >= 2) {
-                    Object a = l.remove(0);
-                    Object b = l.remove(0);
-                    Method m = methodEnv.get(o);
-                    m.invoke(a, b);
-                }*/
-
-                return fullEnv.get(o);
+                if (s.getIsStdOp()){
+                    System.out.println("STANDARD OP SYMBOL : " + s.toString());
+                    return methodEnv.get(o);
+                }
+                return userEnv.get(o);
             } else if (!(o instanceof ArrayList)) {
                 System.out.println("EVAL - NOT ArrayList - " + o.toString());
                 return o;
@@ -125,7 +125,7 @@ public class Environment {
                     System.out.println("EVAL - DEFINE - " + o.toString());
                     String var = lst.get(0).toString();
                     ArrayList exp = (ArrayList) lst.get(0);
-                    fullEnv.put(var, eval(exp));
+                    userEnv.put(var, evalList(exp));
                 }
             }
         return o;

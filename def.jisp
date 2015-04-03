@@ -1,0 +1,3 @@
+(def a 123)
+(define b 456)
+(+ a b)

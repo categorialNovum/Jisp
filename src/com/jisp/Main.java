@@ -58,10 +58,12 @@ public class Main {
             System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             System.out.println("--> Finished <--");
             Method method = StandardEnvironment.class.getMethod("add", Integer.class, Integer.class);
+            Method genericMethod = StandardEnvironment.class.getMethod("add", Object.class, Object.class);
             // regular call
             System.out.println("METHOD INVOCATION : " + method.invoke(StandardEnvironment.class, 123, 456));
             // call to static method can use null for first param
             System.out.println("METHOD INVOCATION : " + method.invoke(null, 123, 456));
+//            System.out.println("GENERIC METHOD INVOCATION : " + genericMethod.invoke(null, 123, 456));
         }catch (FileNotFoundException ex){
             System.out.println("JiSP file not found. exiting");
             System.out.println(ex.toString());
@@ -76,7 +78,7 @@ public class Main {
             System.out.println(ex.toString());
         }catch (InvocationTargetException ex){
             System.out.println("Invocation Target exception");
-            System.out.println(ex.toString());
+            ex.printStackTrace();
 
         }
     }
