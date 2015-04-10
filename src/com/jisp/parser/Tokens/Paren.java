@@ -1,8 +1,9 @@
 package com.jisp.parser.Tokens;
 
 import com.jisp.exceptions.TokenException;
+import com.jisp.parser.Tokens.Token.TokenType;
 
-public class Paren implements Token {
+public class Paren {
     String data;
     TokenType paren_type;
 

@@ -1,11 +1,19 @@
 package com.jisp.parser.Tokens;
 
-public  interface Token <T>{
-    public enum TokenType {NUMBER, SYMBOL, OPEN_PAREN, CLOSE_PAREN, QUOTE, CONDITIONAL,DEFINE}
+import com.jisp.datatypes.Value;
 
-    public String toString();
+public  abstract class Token <T>{
+    public enum TokenType {NUMBER, SYMBOL, OPEN_PAREN, CLOSE_PAREN, QUOTE, CONDITIONAL,DEFINE,NIL}
 
-    public String getTypeStr();
+    Value val;
 
-    public TokenType getType();
+    public String toString(){
+        return val.toString();
+    }
+
+    public abstract String getTypeStr();
+
+    public abstract TokenType getType();
+
+    public abstract Value getData();
 }

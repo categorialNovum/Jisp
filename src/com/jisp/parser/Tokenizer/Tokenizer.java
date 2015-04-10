@@ -120,7 +120,7 @@ public class Tokenizer {
 
     public Token createToken(String s){
         HashMap<String,Boolean> matches = matchAllMap(s);
-        if (matches.get(matchType.PAREN.toString())){
+        /*if (matches.get(matchType.PAREN.toString())){
             return new Paren(s);
         }
         else if (matches.get(matchType.DIGIT.toString())
@@ -145,7 +145,16 @@ public class Tokenizer {
             return new Define(s);
         }else{
             return new Symbol(s);
+        }*/
+
+        //only IntNum and Symbol to start
+        if (matches.get(matchType.DIGIT.toString())
+                && !matches.get(matchType.ALPHA.toString())
+                && !matches.get(matchType.OPERATOR.toString())
+                && !matches.get(matchType.DOT.toString())) {
+            return new IntNum(s);
         }
+        return new Symbol(s);
     }
 
     // Split a string into pieces and create/return a list of tokens
@@ -157,6 +166,20 @@ public class Tokenizer {
                 continue;
             }
             tokens.add(createToken(item));
+        }
+        return tokens;
+    }
+
+    // Split a string into pieces and create/return array of tokens
+    public Token[] tokenize_array(String s){
+        String[] items = s.replace("(", " ( ").replace(")", " ) ").split(" ");
+        Token[] tokens = new Token[items.length];
+        for (int x=0; x<items.length; x++){
+            String item = items[x];
+            if (item.equals(" ") || item.equals("")){
+                continue;
+            }
+            tokens[x] = createToken(item);
         }
         return tokens;
     }

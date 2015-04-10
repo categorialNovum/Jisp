@@ -69,7 +69,8 @@ public class Environment {
         }else if(! (list instanceof ArrayList)){
             System.out.println("EVAL - NOT ArrayList - " + list.toString());
             return list;
-        }else if(list instanceof ArrayList){
+        }
+        /*else if(list instanceof ArrayList){
             System.out.println("EVAL - ArrayList - " + list.toString());
             ArrayList<Object> lst = (ArrayList<Object>)list;
             Token t = (Token)lst.remove(0);
@@ -87,7 +88,7 @@ public class Environment {
                 ArrayList exp = (ArrayList)lst.get(0);
                 fullEnv.put(var,eval(exp));
             }
-        }
+        }*/
         return list;
     }
 
@@ -113,7 +114,7 @@ public class Environment {
                 System.out.println("EVAL - ArrayList - " + o.toString());
                 ArrayList<Object> lst = (ArrayList<Object>) o;
                 Token t = (Token) lst.remove(0);
-                if (t instanceof Quote) {
+                /*if (t instanceof Quote) {
                     System.out.println("EVAL - QUOTE - " + o.toString());
                     return lst.remove(0);
                 } else if (t instanceof Conditional) {
@@ -126,7 +127,7 @@ public class Environment {
                     String var = lst.get(0).toString();
                     ArrayList exp = (ArrayList) lst.get(0);
                     userEnv.put(var, evalList(exp));
-                }
+                }*/
             }
         return o;
     }

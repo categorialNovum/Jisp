@@ -157,7 +157,8 @@ public class StandardEnvironment {
         if (len <= 1){
             return new ArrayList<Token>();
         }
-        return (ArrayList<Token>)l.remove(0);
+        //return (ArrayList<Token>)l.remove(0);
+        return l;
     }
 
     // CONS - add 'a' as the first object in a list along with the contents of 'b'

@@ -1,8 +1,9 @@
 package com.jisp.parser.Tokens;
 
 import com.jisp.exceptions.TokenException;
+import com.jisp.parser.Tokens.Token.TokenType;
 
-public class Quote implements Token{
+public class Quote {
     String data;
 
     public Quote(String s) {

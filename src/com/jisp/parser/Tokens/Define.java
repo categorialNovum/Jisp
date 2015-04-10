@@ -1,6 +1,7 @@
 package com.jisp.parser.Tokens;
+import com.jisp.parser.Tokens.Token.TokenType;
 
-public class Define implements Token {
+public class Define   {
 
     String data;
 

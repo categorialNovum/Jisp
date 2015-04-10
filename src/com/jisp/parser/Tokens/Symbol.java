@@ -1,9 +1,13 @@
 package com.jisp.parser.Tokens;
 
+import com.jisp.datatypes.StrVal;
+import com.jisp.datatypes.Value;
 import com.jisp.utils.JispUtils;
+import com.jisp.parser.Tokens.Token.TokenType;
 
-public class Symbol implements Token {
-    private String data;
+public class Symbol extends Token{
+    //private String data;
+    private StrVal data;
     private Boolean isStdOp;
 
     public Symbol(String s){
@@ -12,7 +16,7 @@ public class Symbol implements Token {
     }
 
     public void setData(String s){
-        data = s;
+        data = new StrVal(s);
     }
 
     public Boolean getIsStdOp(){return isStdOp;}
@@ -26,6 +30,10 @@ public class Symbol implements Token {
     }
 
     public String toString(){
+        return data.toString();
+    }
+
+    public Value getData(){
         return data;
     }
 }

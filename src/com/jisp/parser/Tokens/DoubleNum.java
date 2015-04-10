@@ -1,6 +1,8 @@
 package com.jisp.parser.Tokens;
 
-public class DoubleNum implements Token {
+import com.jisp.parser.Tokens.Token.TokenType;
+
+public class DoubleNum {
     Double data;
 
     public DoubleNum(String s){

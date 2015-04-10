@@ -1,16 +1,17 @@
 package com.jisp.parser.Tokens;
 
-/**
- * Created by jbeaumon on 3/7/15.
- */
-public class IntNum implements Token, Number {
-    Integer data;
+import com.jisp.datatypes.NumVal;
+import com.jisp.datatypes.Value;
+
+public class IntNum extends Token{
+    //Integer data;
+    NumVal data;
     public IntNum(String s){
         setData(s);
     }
 
     public void setData(String s){
-        data = Integer.parseInt(s);
+        data = new NumVal(Integer.parseInt(s));
     }
 
     public String toString(){
@@ -18,11 +19,11 @@ public class IntNum implements Token, Number {
     }
 
     public Double toDouble(){
-        return new Double(data);
+        return new Double(data.getData());
     }
 
     public Integer toInt(){
-        return data;
+        return data.getData();
     }
 
     public String getTypeStr(){
@@ -31,5 +32,9 @@ public class IntNum implements Token, Number {
 
     public TokenType getType(){
         return Token.TokenType.NUMBER;
+    }
+
+    public Value getData(){
+        return data;
     }
 }
