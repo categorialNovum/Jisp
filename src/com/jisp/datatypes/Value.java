@@ -1,8 +1,10 @@
 package com.jisp.datatypes;
 
 public abstract class Value {
+    public enum ValueType {NUMBER, SYMBOL, OPEN_PAREN, CLOSE_PAREN, QUOTE, CONDITIONAL,DEFINE,NIL}
 
-    public void write(){}
+    public abstract String write();
 
-    public Object getVal(){return new Object();}
+    //public abstract Object getVal(){return new Object();}
+    public abstract Object getVal();
 }

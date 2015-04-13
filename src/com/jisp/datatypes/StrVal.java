@@ -7,8 +7,10 @@ public class StrVal extends Value{
         data = s;
     }
 
+    public String write(){
+        return data;
+    }
     public String getVal(){
        return data;
     }
-
 }

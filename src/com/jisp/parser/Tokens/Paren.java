@@ -1,10 +1,10 @@
 package com.jisp.parser.Tokens;
 
+import com.jisp.datatypes.CharVal;
 import com.jisp.exceptions.TokenException;
-import com.jisp.parser.Tokens.Token.TokenType;
 
-public class Paren {
-    String data;
+public class Paren extends Token{
+    CharVal data;
     TokenType paren_type;
 
     public Paren(String s) {
@@ -24,7 +24,11 @@ public class Paren {
     }
 
     public void setData(String s) {
-        data = s;
+        data = new CharVal(s);
+    }
+
+    public CharVal getData() {
+        return data;
     }
 
     public String getTypeStr() {
@@ -36,6 +40,6 @@ public class Paren {
     }
 
     public String toString() {
-        return data;
+        return data.toString();
     }
 }

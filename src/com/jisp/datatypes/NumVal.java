@@ -10,7 +10,15 @@ public class NumVal extends Value{
         data = n.intValue();
     }
 
+    public String write(){
+        return data.toString();
+    }
+
     public Integer getData(){
+        return data;
+    }
+
+    public Integer getVal(){
         return data;
     }
 }

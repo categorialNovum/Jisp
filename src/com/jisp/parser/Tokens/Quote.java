@@ -1,10 +1,10 @@
 package com.jisp.parser.Tokens;
 
+import com.jisp.datatypes.CharVal;
 import com.jisp.exceptions.TokenException;
-import com.jisp.parser.Tokens.Token.TokenType;
 
-public class Quote {
-    String data;
+public class Quote extends Token{
+    CharVal data;
 
     public Quote(String s) {
         try {
@@ -20,7 +20,7 @@ public class Quote {
     }
 
     public void setData(String s) {
-        data = s;
+        data = new CharVal(s);
     }
 
     public String getTypeStr() {
@@ -32,6 +32,10 @@ public class Quote {
     }
 
     public String toString() {
+        return data.toString();
+    }
+
+    public CharVal getData(){
         return data;
     }
 }

@@ -9,12 +9,13 @@ import com.jisp.parser.Tokenizer.Tokenizer;
 public class REPL {
     static Tokenizer tokenizer;
 
-    private void init(){
+    private static void init(){
         tokenizer = new Tokenizer();
     }
 
     public static Token[] read(Scanner in){
-       return tokenizer.tokenize_array(in.nextLine());
+        //return tokenizer.tokenize_array(in.next());
+        return tokenizer.tokenize_array(in.nextLine());
     }
 
     public static Value eval(Token tokens[]){
@@ -22,7 +23,8 @@ public class REPL {
     }
 
     public static void write(Value v){
-        System.out.println(v.getVal().toString());
+        //System.out.println("# : " + v.getVal().toString());
+        System.out.println("# : " + v.write());
     }
 
     public static void main(String args[]){
@@ -30,12 +32,12 @@ public class REPL {
         System.out.println("JiSP REPL 1.0");
         System.out.println("##################################################");
 
+        init();
         Scanner input = new Scanner(System.in);
+        // READ -> EVAL -> PRINT
         while (true){
-            System.out.println("->");
-            // READ -> EVAL -> PRINT
+            System.out.print("->");
             write(eval(read(input)));
-            System.out.print("\n");
         }
     }
 }

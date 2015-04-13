@@ -8,12 +8,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Tokenizer {
-    private enum matchType{DIGIT,DOUBLE,OPERATOR,DOT,ALPHA,PAREN,QUOTE,CONDITIONAL,DEFINE, STDOP}
+    private enum matchType{DIGIT,DOUBLE,OPERATOR,DOT,ALPHA,PAREN,QUOTE,CONDITIONAL,DEFINE, STDOP, NIL}
     private Pattern intMatch = Pattern.compile("\\d"); // digits
     private Pattern doubleMatch = Pattern.compile("[0-9\\.]"); // digits and decimal points
     private Pattern operatorMatch = Pattern.compile("[%*-+/]"); // add,sub,mod,minus,mult,div operators
     //private Pattern opMatch = Pattern.compile("%|*|-|+|//|>|>=|<|<="); // add,sub,mod,minus,mult,div operators
     private Pattern dotMatch = Pattern.compile("[\\.]");//  dot
+    private Pattern nilMatch = Pattern.compile("nil", Pattern.CASE_INSENSITIVE);//  dot
     private Pattern alphaMatch = Pattern.compile("[A-z]"); // any alpha
     private Pattern parenMatch = Pattern.compile("\\(|\\)"); // either paren
     private Pattern quoteMatch = Pattern.compile("quote|'", Pattern.CASE_INSENSITIVE); // digits
@@ -48,6 +49,7 @@ public class Tokenizer {
         Matcher condResults = condMatch.matcher(s);
         Matcher defResults = defMatch.matcher(s);
         Matcher stdOpResults = stdOpMatch.matcher(s);
+        Matcher nilResults = stdOpMatch.matcher(s);
         ArrayList<Matcher> matchList = new ArrayList<Matcher>();
         matchList.add(intResults);
         matchList.add(doubleResults);
@@ -59,6 +61,7 @@ public class Tokenizer {
         matchList.add(condResults);
         matchList.add(defResults);
         matchList.add(stdOpResults);
+        matchList.add(nilResults);
         return matchList;
     }
 
@@ -91,6 +94,7 @@ public class Tokenizer {
         Matcher condResults = condMatch.matcher(s);
         Matcher defResults = defMatch.matcher(s);
         Matcher stdOpResults = stdOpMatch.matcher(s);
+        Matcher nilResults = stdOpMatch.matcher(s);
         HashMap<String, Boolean> matchMap = new HashMap<String, Boolean>();
         matchMap.put(matchType.DIGIT.toString(), intResults.find());
         matchMap.put(matchType.DOUBLE.toString(), doubleResults.find());
@@ -102,6 +106,7 @@ public class Tokenizer {
         matchMap.put(matchType.CONDITIONAL.toString(), condResults.find());
         matchMap.put(matchType.DEFINE.toString(), defResults.find());
         matchMap.put(matchType.STDOP.toString(), stdOpResults.find());
+        matchMap.put(matchType.NIL.toString(), nilResults.find());
 
         return matchMap;
     }
@@ -146,13 +151,15 @@ public class Tokenizer {
         }else{
             return new Symbol(s);
         }*/
-
-        //only IntNum and Symbol to start
-        if (matches.get(matchType.DIGIT.toString())
+        if (matches.get(matchType.PAREN.toString())) {
+            return new Paren(s);
+        }else if (matches.get(matchType.DIGIT.toString())
                 && !matches.get(matchType.ALPHA.toString())
                 && !matches.get(matchType.OPERATOR.toString())
                 && !matches.get(matchType.DOT.toString())) {
             return new IntNum(s);
+        }else if(matches.get(matchType.QUOTE.toString())){
+            return new Quote(s);
         }
         return new Symbol(s);
     }
